@@ -1,0 +1,623 @@
+"use client"
+
+import type React from "react"
+
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Textarea } from "@/components/ui/textarea"
+import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
+import { Send, FileDown, MessageSquare, SquareArrowOutUpRight } from 'lucide-react'
+import { Suspense } from "react"
+import { SiteHeader } from "@/components/site-header"
+import { SiteFooter } from "@/components/site-footer"
+
+export default function Page() {
+const [message, setMessage] = useState("")
+const { toast } = useToast()
+
+function handleSubmit(e: React.FormEvent) {
+  e.preventDefault()
+  toast({
+    title: "已提交",
+    description: "感谢留言！我会尽快联系您（示例站点未接入后端）。",
+  })
+  setMessage("")
+}
+
+return (
+  <div className="min-h-[100dvh] flex flex-col">
+    <Suspense fallback={<div className="h-14" aria-hidden="true" />}>
+      <SiteHeader />
+    </Suspense>
+    <main className="container mx-auto px-4 md:px-6 py-12 md:py-16">
+      <Badge className="bg-[#E67E22]/10 text-[#E67E22] border-[#E67E22]/20 mb-4">联系我</Badge>
+      <h1 className="text-3xl md:text-4xl font-bold mb-2">一起把“人文温度”注入医疗AI产品</h1>
+      <p className="text-muted-foreground mb-8">针对不同受众提供定制化价值主张：招聘经理、产品团队、行业同仁。</p>
+
+      <div className="grid lg:grid-cols-2 gap-8">
+        <div className="space-y-6">
+          <Card>
+            <CardContent className="p-6">
+              <h2 className="font-semibold">给招聘经理</h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                如果您正在寻找能将人文温度注入医疗AI产品的思考者，我将以系统化的方法与实战经验帮助团队加速产品价值落地。
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-6">
+              <h2 className="font-semibold">给产品团队</h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                如果您认为医疗AI不应只有技术，还应有温度，我可以从用户语言习惯出发，优化可理解性与可用性。
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-6">
+              <h2 className="font-semibold">给行业同仁</h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                让我们共同探索医疗AI的人文维度，交流方法论与实践案例。
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div>
+          <Card>
+            <CardContent className="p-6">
+              <form className="space-y-4" onSubmit={handleSubmit}>
+                {/* 删除邮箱输入，仅保留留言 */}
+                <div className="grid gap-2">
+                  <label className="text-sm font-medium" htmlFor="message">
+                    留言
+                  </label>
+                  <Textarea
+                    id="message"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="我想与您讨论..."
+                    rows={6}
+                  />
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  <Button type="submit">
+                    <Send className="mr-2 h-4 w-4" />
+                    提交
+                  </Button>
+                  {/* 新增小红书按钮 */}
+                  <Button type="button" variant="outline" asChild>
+                    <a
+                      href="https://www.xiaohongshu.com/user/profile/60ee07d600000000010089d6"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <SquareArrowOutUpRight className="mr-2 h-4 w-4" />
+                      小红书主页
+                    </a>
+                  </Button>
+                  <a href="#resume" className="inline-flex">
+                    <Button type="button" variant="ghost">
+                      <FileDown className="mr-2 h-4 w-4" />
+                      下载简历
+                    </Button>
+                  </a>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+
+          <div id="resume" className="mt-6 text-sm text-muted-foreground flex items-center gap-2">
+            <MessageSquare className="h-4 w-4" />
+            若需简历PDF，请在留言中备注，我将发送最新版本。
+          </div>
+        </div>
+      </div>
+    </main>
+    <SiteFooter />
+  </div>
+)
+}
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { BookOpen, FileDown, Handshake, Microscope, Sparkles, SquareArrowOutUpRight } from 'lucide-react'
+import Link from "next/link"
+import { DoubleHelix } from "@/components/double-helix"
+import { RadarChart } from "@/components/radar-chart"
+import { identity, radarData, capabilityPoints, projects } from "@/data/core"
+import { Suspense } from "react"
+import { SiteHeader } from "@/components/site-header"
+import { SiteFooter } from "@/components/site-footer"
+
+export function IndexPage() {
+return (
+  <div className="min-h-[100dvh] flex flex-col bg-background">
+    <Suspense fallback={<div className="h-14" aria-hidden="true" />}>
+      <SiteHeader />
+    </Suspense>
+    <main>
+      {/* Hero with Double Helix */}
+      <section className="relative overflow-hidden" aria-label="英雄区：双螺旋价值导航">
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#0f1f33] via-[#132a42] to-background" />
+        <div className="container mx-auto px-4 md:px-6 py-20 md:py-28 lg:py-32">
+          <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
+            <div className="space-y-6 text-primary-foreground">
+              <Badge className="bg-white/10 hover:bg-white/20 text-white border-white/20" aria-label="核心定位">
+                医疗AI产品的跨文化解码器
+              </Badge>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
+                医疗AI产品的跨文化解码器：将人文温度注入生物医疗智能解决方案
+              </h1>
+              <p className="text-white/80 md:text-lg">
+                一位英语专业毕业生如何将语言思维转化为生物医疗AI产品的核心竞争力——不仅是职业转型故事，更是产品思维与人文视角的创新融合。
+              </p>
+              {/* 删除“查看作品集”上方的四个橙色小方框（个性标签） */}
+
+              <div className="flex flex-wrap gap-3">
+                <Link href="/portfolio">
+                  <Button className="bg-[#2C5E92] hover:bg-[#254f7a]">
+                    <Microscope className="mr-2 h-4 w-4" />
+                    查看作品集
+                  </Button>
+                </Link>
+                <Link href="/contact">
+                  <Button variant="outline" className="border-white/40 text-white hover:bg-white/10 bg-transparent">
+                    <Handshake className="mr-2 h-4 w-4" />
+                    预约产品交流
+                  </Button>
+                </Link>
+                <Link href="/blog">
+                  <Button variant="ghost" className="text-white hover:bg-white/10">
+                    <BookOpen className="mr-2 h-4 w-4" />
+                    阅读产品思考
+                  </Button>
+                </Link>
+              </div>
+              <div className="rounded-xl border border-[#254f7a] bg-[#2C5E92] p-4 backdrop-blur">
+                <p className="text-sm text-white">
+                  选择您的起点：语言解码（人文链）或产品思维（技术链），沿着交织的双螺旋探索能力组合。
+                </p>
+              </div>
+            </div>
+
+            <div className="relative">
+              <DoubleHelix
+                humanities={capabilityPoints.filter((c) => c.chain === "humanities")}
+                tech={capabilityPoints.filter((c) => c.chain === "tech")}
+                primaryColor="#2C5E92"
+                secondaryColor="#E67E22"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Value Props and Radar */}
+      <section className="container mx-auto px-4 md:px-6 py-14 md:py-20">
+        <div className="grid lg:grid-cols-2 gap-10 items-start">
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-2">
+                <Sparkles className="h-5 w-5 text-[#E67E22]" />
+                <h2 className="text-xl font-semibold">一句话价值主张</h2>
+              </div>
+              <p className="text-muted-foreground">{identity.valueStatement}</p>
+              <div className="mt-4 grid sm:grid-cols-3 gap-3">
+                <Link href="/about">
+                  <Button variant="outline" className="w-full bg-transparent">
+                    我的转型故事
+                  </Button>
+                </Link>
+                <Link href="/product-thinking">
+                  <Button variant="outline" className="w-full bg-transparent">
+                    产品哲学
+                  </Button>
+                </Link>
+                <Link href="/practice">
+                  <Button variant="outline" className="w-full bg-transparent">
+                    实践验证
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold">三重能力雷达图</h2>
+                <Link href="/portfolio" className="text-sm text-primary inline-flex items-center gap-1">
+                  能力-项目映射
+                  <SquareArrowOutUpRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+              <div className="mt-6">
+                <RadarChart size={300} axes={radarData} stroke="#2C5E92" fill="#2C5E92" />
+              </div>
+              <p className="text-xs text-muted-foreground mt-3">
+                用户需求洞察、医疗场景理解、技术可行性评估构成我的能力基座。
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Featured Projects */}
+      <section className="container mx-auto px-4 md:px-6 pb-14 md:pb-20">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold">精选项目</h2>
+          <Link href="/portfolio" className="text-sm text-primary">
+            查看全部
+          </Link>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {projects.slice(0, 3).map((p) => (
+            <Card key={p.id} className="overflow-hidden">
+              <CardContent className="p-5">
+                <h3 className="font-semibold">{p.title}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{p.summary}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA: Recruiter quick actions */}
+      <section className="container mx-auto px-4 md:px-6 pb-20">
+        <Card className="bg-[#F8F4E9] border-[#E67E22]/20">
+          <CardContent className="p-6 md:p-8">
+            <div className="grid lg:grid-cols-[1fr_auto] gap-6 items-center">
+              <div>
+                <h3 className="text-2xl font-semibold">AI产品不是技术炫技，而是解决真问题的翻译器</h3>
+                <p className="text-muted-foreground mt-2">
+                  如果您正在寻找能将人文温度注入医疗AI产品的产品经理，欢迎与我联系或下载简历。
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link href="/contact">
+                  <Button className="bg-[#2C5E92] hover:bg-[#254f7a] w-full">预约沟通</Button>
+                </Link>
+                <Link href="/portfolio">
+                  <Button variant="outline" className="border-[#E67E22]/40 text-[#2C5E92] w-full bg-transparent">
+                    查看能力图谱
+                  </Button>
+                </Link>
+                <Link href="/contact#resume">
+                  <Button variant="ghost" className="w-full">
+                    <FileDown className="mr-2 h-4 w-4" />
+                    下载简历
+                  </Button>
+                </Link>
+              </div>
+            </div>
+            {/* 删除能力匹配度小测试，替换为一句话 */}
+            <p className="mt-6 text-center text-base font-medium text-[#2C5E92]">
+              医疗AI产品的跨文化解码器——将人文温度注入生物医疗智能解决方案。
+            </p>
+          </CardContent>
+        </Card>
+      </section>
+    </main>
+    <SiteFooter />
+  </div>
+)
+}
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { identity } from "@/data/core"
+import { Suspense } from "react"
+import { SiteHeader } from "@/components/site-header"
+import { SiteFooter } from "@/components/site-footer"
+
+export function AboutPage() {
+return (
+  <div className="min-h-[100dvh] flex flex-col">
+    <Suspense fallback={<div className="h-14" aria-hidden="true" />}>
+      <SiteHeader />
+    </Suspense>
+    <main className="container mx-auto px-4 md:px-6 py-12 md:py-16">
+      <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-start">
+        <div>
+          <Badge className="bg-[#E67E22]/10 text-[#E67E22] border-[#E67E22]/20 mb-4">关于我</Badge>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">从语言解码到产品解码</h1>
+          <p className="text-muted-foreground mb-6">
+            我是王怡凡，一位致力于让医疗AI产品更有人文温度的产品思考者。英语专业背景让我对语言习惯与认知差异异常敏感，
+            这成为我在医疗AI产品中解码用户需求的关键优势。我相信：精准与温度同样重要。
+          </p>
+
+          <div className="space-y-6">
+            <Card>
+              <CardContent className="p-6">
+                <h2 className="text-xl font-semibold mb-2">起点：语言训练如何培养产品核心能力</h2>
+                <p className="text-muted-foreground">
+                  在英语专业的训练中，我学习的不仅是词汇语法，更是跨文化沟通的结构化方法、文本分析的逻辑能力、以及对语言细微差异的敏感度。
+                  这些能力迁移到产品领域，就是用户需求洞察、信息架构设计与内容策略制定。
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-6">
+                <h2 className="text-xl font-semibold mb-2">转折：发现医疗AI产品的“人文缺口”</h2>
+                <p className="text-muted-foreground">
+                  在医院导医志愿者经历中，我观察到“患者语言”与“医疗系统语言”的错位——这在AI产品中同样存在。
+                  技术可以很强大，但如果不能被患者和医生直观理解，价值就打了折扣。
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-6">
+                <h2 className="text-xl font-semibold mb-2">行动：系统性能力构建路径</h2>
+                <p className="text-muted-foreground">
+                  我将教学实践、活动策划、行业研究等经历进行产品化重构，建立“人文→技术”的解码链路：
+                  语言敏感度→痛点识别→方案设计→数据验证→迭代优化。
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-6">
+                <h2 className="text-xl font-semibold mb-2">愿景：打造有温度的医疗AI产品生态</h2>
+                <p className="text-muted-foreground">
+                  我期待与关注用户体验的医疗科技团队合作，把“人文温度”注入AI产品的每一个交互细节，
+                  让技术成为真正理解人的工具。
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        <div>
+          {/* 删除照片，仅保留标签 */}
+          <div className="grid sm:grid-cols-3 gap-3">
+            {identity.tags.map((t) => (
+              <Badge key={t} variant="secondary">
+                {t}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      </div>
+    </main>
+    <SiteFooter />
+  </div>
+)
+}
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { Lightbulb, Workflow, Brain } from 'lucide-react'
+import { Suspense } from "react"
+import { SiteHeader } from "@/components/site-header"
+import { SiteFooter } from "@/components/site-footer"
+
+export function ProductThinkingPage() {
+return (
+  <div className="min-h-[100dvh] flex flex-col">
+    <Suspense fallback={<div className="h-14" aria-hidden="true" />}>
+      <SiteHeader />
+    </Suspense>
+    <main className="container mx-auto px-4 md:px-6 py-12 md:py-16">
+      <h1 className="text-3xl md:text-4xl font-bold mb-6">产品思维 · 实用主义 × 人文关怀</h1>
+      <p className="text-muted-foreground mb-8">
+        AI产品不是技术炫技，而是解决真问题的翻译器。我的方法论以“人文理解→问题定义→方案翻译→数据验证”为主线，贯穿全流程。
+      </p>
+
+      <div className="grid lg:grid-cols-3 gap-6 mb-10">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Lightbulb className="h-5 w-5 text-[#E67E22]" />
+              产品哲学
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-muted-foreground">
+            聚焦真实问题与可落地的价值创造。优先保证可理解、可用性，再引入技术复杂度。
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Workflow className="h-5 w-5 text-[#2C5E92]" />
+              解码工具箱
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-muted-foreground">
+            用户需求“解码器”、医疗术语对照表、跨文化沟通清单、可解释性提示模版等方法资产。
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Brain className="h-5 w-5 text-[#2C5E92]" />
+              学习路径
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-muted-foreground">
+            行业标准与法规→医疗流程→AI基础与评估→HCI与UX→数据伦理与可解释性。
+          </CardContent>
+        </Card>
+      </div>
+
+      <Tabs defaultValue="case1">
+        <TabsList>
+          <TabsTrigger value="case1">案例：对话型AI(Talk AI)</TabsTrigger>
+          <TabsTrigger value="case2">案例：短视频产品(抖音)</TabsTrigger>
+          <TabsTrigger value="tool">工具：用户需求解码器</TabsTrigger>
+        </TabsList>
+        <TabsContent value="case1" className="mt-6">
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="font-semibold mb-2">问题定义</h3>
+                <p className="text-muted-foreground">
+                  医疗咨询场景中，对话式AI易出现“术语过载”和“情感缺席”。如何让回答既准确又有温度？
+                </p>
+                <h3 className="font-semibold mt-4 mb-2">关键策略</h3>
+                <ul className="text-muted-foreground list-disc pl-5 space-y-2">
+                  <li>双通道输出：专业解释 + 人性化释义</li>
+                  <li>语气与同理心提示（Prompt 模版）</li>
+                  <li>安全边界：高风险问题转人工</li>
+                </ul>
+              </CardContent>
+            </Card>
+            {/* 删除右侧案例图片卡片 */}
+          </div>
+        </TabsContent>
+        <TabsContent value="case2" className="mt-6">
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="font-semibold mb-2">问题定义</h3>
+                <p className="text-muted-foreground">短视频信息架构如何支持“医学可信度”与“通俗理解度”的平衡？</p>
+                <h3 className="font-semibold mt-4 mb-2">关键策略</h3>
+                <ul className="text-muted-foreground list-disc pl-5 space-y-2">
+                  <li>内容分层标签（科普等级）</li>
+                  <li>术语卡、风险提示组件化</li>
+                  <li>评论区“纠错”机制与专家背书</li>
+                </ul>
+              </CardContent>
+            </Card>
+            {/* 删除右侧案例图片卡片 */}
+          </div>
+        </TabsContent>
+        <TabsContent value="tool" className="mt-6">
+          <Card>
+            <CardContent className="p-6">
+              <h3 className="font-semibold mb-2">用户需求“解码器”示例</h3>
+              <p className="text-muted-foreground">
+                输入：患者话术（自然语言）→ 解码：医学术语匹配、情感意图、风险等级 →
+                输出：产品任务、界面元素、验证指标。
+              </p>
+              {/* 删除工具示意图片 */}
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </main>
+    <SiteFooter />
+  </div>
+)
+}
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { capabilityPoints, projects } from "@/data/core"
+import { Suspense } from "react"
+import { SiteHeader } from "@/components/site-header"
+import { SiteFooter } from "@/components/site-footer"
+
+export function PortfolioPage() {
+return (
+  <div className="min-h-[100dvh] flex flex-col">
+    <Suspense fallback={<div className="h-14" aria-hidden="true" />}>
+      <SiteHeader />
+    </Suspense>
+    <main className="container mx-auto px-4 md:px-6 py-12 md:py-16">
+      <h1 className="text-3xl md:text-4xl font-bold mb-6">作品集 · 网站即作品</h1>
+      <p className="text-muted-foreground mb-8">
+        本网站以“双螺旋导航”呈现人文与技术的融合路径。以下项目展示如何将语言思维转化为医疗AI产品价值。
+      </p>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {projects.map((p) => (
+          <Card key={p.id} className="overflow-hidden">
+            <CardContent className="p-5">
+              <div className="flex items-center justify-between">
+                <h2 className="font-semibold">{p.title}</h2>
+                <Badge variant="outline">{p.type}</Badge>
+              </div>
+              <p className="text-sm text-muted-foreground mt-2">{p.summary}</p>
+              <div className="flex flex-wrap gap-2 mt-3">
+                {p.relatedCapabilities.map((cid) => {
+                  const cap = capabilityPoints.find((c) => c.id === cid)
+                  if (!cap) return null
+                  return (
+                    <Badge key={cid} variant="secondary">
+                      {cap.name}
+                    </Badge>
+                  )
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </main>
+    <SiteFooter />
+  </div>
+)
+}
+import { Suspense } from "react"
+import { SiteHeader } from "@/components/site-header"
+import { SiteFooter } from "@/components/site-footer"
+
+export function PracticePage() {
+return (
+  <div className="min-h-[100dvh] flex flex-col">
+    <Suspense fallback={<div className="h-14" aria-hidden="true" />}>
+      <SiteHeader />
+    </Suspense>
+    <main className="container mx-auto px-4 md:px-6 py-12 md:py-16">
+      <h1 className="text-3xl md:text-4xl font-bold mb-6">博客</h1>
+      <article className="prose prose-neutral max-w-3xl">
+        <h2>学做AI产品经理：从“看懂”到“落地”的小思考</h2>
+        <p>
+          学习AI产品经理的时候，最大的感受是：AI产品不是“技术炫技”，而是用技术解决真问题的“翻译器”——把用户痛点翻译成技术方案，再把技术能力翻译成用户能感知的价值。
+        </p>
+        <p>
+          分析Talk AI时，最戳我的是它的“矛盾点”：AI能实时纠错、模拟场景，却缺了真人的情感温度。这让我明白，做AI产品得先想清楚“技术边界”：哪些是AI能高效解决的（比如高频次练习、标准化反馈），哪些是必须留给出错空间或结合真人的（比如文化语境、情感共鸣）。
+        </p>
+        <p>
+          看抖音的案例，则像看一本“产品迭代教科书”。从15秒短视频的MVP，到直播、电商的生态扩张，每一步都踩着用户需求的节奏：用户要碎片娱乐，就做算法推荐；用户想创作，就给傻瓜工具；用户想变现，就搭星图和DOU+。原来好产品不是一开始就完美，而是能精准抓住“最小可行的核心价值”，再慢慢长肉。
+        </p>
+        <p>
+          轮到自己设计个人网站和产品时，才懂“用户洞察”不是喊口号。比如把英语背景转化为“用户需求解码器”，核心都是在想：用户真正焦虑的是什么？是转行的不自信，还是无法精准切入面试？找到这个点，技术应用才有意义。
+        </p>
+        <p>
+          我更觉得AI产品经理像“站在十字路口的人”：左边是用户的真实需求，右边是技术的可能性，我们的工作就是找到那条能让两边顺畅相遇的路。未来想继续练这种“翻译能力”，让每一行需求文档、每一次功能迭代，都能真正帮到用户。
+        </p>
+      </article>
+    </main>
+    <SiteFooter />
+  </div>
+)
+}
+import { Suspense } from "react"
+import { SiteHeader } from "@/components/site-header"
+import { SiteFooter } from "@/components/site-footer"
+
+export function BlogPostPage() {
+return (
+  <div className="min-h-[100dvh] flex flex-col">
+    <Suspense fallback={<div className="h-14" aria-hidden="true" />}>
+      <SiteHeader />
+    </Suspense>
+    <main className="container mx-auto px-4 md:px-6 py-12 md:py-16">
+      <h1 className="text-3xl md:text-4xl font-bold mb-6">博客</h1>
+      <article className="prose prose-neutral max-w-3xl">
+        <h2>学做AI产品经理：从“看懂”到“落地”的小思考</h2>
+        <p>
+          学习AI产品经理的时候，最大的感受是：AI产品不是“技术炫技”，而是用技术解决真问题的“翻译器”——把用户痛点翻译成技术方案，再把技术能力翻译成用户能感知的价值。
+        </p>
+        <p>
+          分析Talk AI时，最戳我的是它的“矛盾点”：AI能实时纠错、模拟场景，却缺了真人的情感温度。这让我明白，做AI产品得先想清楚“技术边界”：哪些是AI能高效解决的（比如高频次练习、标准化反馈），哪些是必须留给出错空间或结合真人的（比如文化语境、情感共鸣）。
+        </p>
+        <p>
+          看抖音的案例，则像看一本“产品迭代教科书”。从15秒短视频的MVP，到直播、电商的生态扩张，每一步都踩着用户需求的节奏：用户要碎片娱乐，就做算法推荐；用户想创作，就给傻瓜工具；用户想变现，就搭星图和DOU+。原来好产品不是一开始就完美，而是能精准抓住“最小可行的核心价值”，再慢慢长肉。
+        </p>
+        <p>
+          轮到自己设计个人网站和产品时，才懂“用户洞察”不是喊口号。比如把英语背景转化为“用户需求解码器”，核心都是在想：用户真正焦虑的是什么？是转行的不自信，还是无法精准切入面试？找到这个点，技术应用才有意义。
+        </p>
+        <p>
+          我更觉得AI产品经理像“站在十字路口的人”：左边是用户的真实需求，右边是技术的可能性，我们的工作就是找到那条能让两边顺畅相遇的路。未来想继续练这种“翻译能力”，让每一行需求文档、每一次功能迭代，都能真正帮到用户。
+        </p>
+      </article>
+    </main>
+    <SiteFooter />
+  </div>
+)
+}
