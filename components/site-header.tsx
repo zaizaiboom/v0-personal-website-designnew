@@ -5,6 +5,8 @@ import { usePathname, useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Switch } from "@/components/ui/switch"
 import { useState, useEffect } from "react"
+import { Menu } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 const nav = [
   { href: "/", label: "首页" },
@@ -19,6 +21,7 @@ export function SiteHeader() {
   const pathname = usePathname()
   const search = useSearchParams()
   const [recruiter, setRecruiter] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     if (search.get("mode") === "recruiter") setRecruiter(true)
@@ -65,8 +68,8 @@ export function SiteHeader() {
         </div>
       )}
       <div className="md:hidden border-t border-border/50">
-        <div className="container mx-auto px-4 py-2 flex flex-wrap gap-3">
-          {nav.slice(0, 4).map((item) => (
+        <div className="container mx-auto px-4 py-2 flex flex-wrap gap-3 justify-center">
+          {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
